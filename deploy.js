@@ -16,7 +16,7 @@ function cloneRepo() {
   console.log('Cloning repo...');
   // delete old copy of repo. Then, clone a fresh copy of repo from GitHub
   cmd.get(
-    'rm -rf hackathon-starter && git clone https://github.com/sahat/hackathon-starter.git',
+    'rm -rf Todo-List && git clone https://github.com/Lenny-Len/Todo-List.git',
     function(err, data, stderr) {
       console.log(
         'cloneRepo callback\n\t err: ' +
@@ -36,8 +36,8 @@ function cloneRepo() {
 // transfers local project to the remote server
 function transferProjectToRemote(failed, successful) {
   return ssh.putDirectory(
-    __dirname + '/hackathon-starter',
-    '/home/ubuntu/hackathon-starter-temp',
+    __dirname + '/Todo-List',
+    '/home/ubuntu/Todo-List-temp',
     {
       recursive: true,
       concurrency: 1,
@@ -63,7 +63,7 @@ function transferProjectToRemote(failed, successful) {
 // creates a temporary folder on the remote server
 function createRemoteTempFolder() {
   return ssh.execCommand(
-    'rm -rf hackathon-starter-temp && mkdir hackathon-starter-temp',
+    'rm -rf Todo-List-temp && mkdir Todo-List-temp',
     { cwd: '/home/ubuntu' }
   );
 }
@@ -78,7 +78,7 @@ function stopRemoteServices() {
 // updates the project on the server
 function updateRemoteApp() {
   return ssh.execCommand(
-    'cp -r hackathon-starter-temp/* hackathon-starter/ && rm -rf hackathon-starter-temp/*',
+    'cp -r Todo-List-temp/* Todo-List/ && rm -rf Todo-List-temp/*',
     { cwd: '/home/ubuntu' }
   );
 }
@@ -105,7 +105,7 @@ function sshConnect() {
       console.log('SSH Connection established.');
 
       // Create "hackathon-starter-temp" directory on remote server
-      console.log('Creating `hackathon-starter-temp` folder.');
+      console.log('Creating `Todo-List-temp` folder.');
 
       return createRemoteTempFolder();
     })
